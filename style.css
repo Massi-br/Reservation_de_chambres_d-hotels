@@ -65,6 +65,7 @@ header .logo a span {
   padding: 5px 20px;
   transition: 0.5s;
   font-weight: bolder;
+  position: relative;
 }
 .btn-reservation:hover {
   background-color: #29d9d5;
