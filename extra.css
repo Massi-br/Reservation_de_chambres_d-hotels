@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;400;500&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -8,7 +10,6 @@
 a {
   text-decoration: none;
 }
-
 header {
   background-color: silver;
   position: fixed;
@@ -55,17 +56,15 @@ body {
 
 .container {
   width: 400px;
-  height: auto; /* Modified height to "auto" to accommodate content */
+  height: 700px;
   background: #e0e0e0;
   border-radius: 40px;
   box-shadow: 12px 12px 24px 0 rgba(0, 0, 0, 0.2),
     -12px -12px 24px 0 rgba(255, 255, 255, 1);
   display: flex;
-  flex-direction: column; /* Changed to "column" to stack elements */
   align-items: center;
   justify-content: center;
   margin-top: 50px;
-  padding: 20px; /* Added padding for spacing */
 }
 
 .signin-sign-up {
@@ -80,7 +79,6 @@ form {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 100%; /* Modified width to take full container width */
 }
 
 form.sign-up-form {
@@ -95,7 +93,7 @@ form.sign-up-form {
 }
 
 .input-field {
-  width: 350px; /* Modified width to take full container width */
+  width: 280px;
   height: 50px;
   margin: 10px 0;
   background: #e0e0e0;

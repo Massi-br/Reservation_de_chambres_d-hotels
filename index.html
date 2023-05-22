@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
     <header>
         <div class="logo">
             <a href="index.html"> <span>Room</span> Quest</a>
@@ -19,13 +18,15 @@
             <li><a href="#a-propos">à propos</a></li>
             <li><a href="#popular-destination">destinations</a></li>
         </ul>
-        <a href="auth.html?mode=connexion" class="btn-reservation">Se connecter</a>
-        <a href="auth.html?mode=inscription" class="btn-reservation">S'inscrire</a>
+        <div class="sign_in_up">
+            <a href="auth.php?mode=connexion" class="btn-reservation">Se connecter</a>
+            <a href="auth.php?mode=inscription" class="btn-reservation">S'inscrire</a>
+        </div>
 
         <div class="responsive-menu"></div>
     </header>
 
-    <!-- acceuil section -->
+    <!-- acceuil  -->
     <section id="home">
         <h2>Votre porte d'entrée vers des séjours inoubliables</h2>
         <h4>RoomQuest</h4>
@@ -51,7 +52,7 @@
         </div>
     </section>
 
-    <!-- A propos section -->
+    <!-- A propos  -->
     <section id="a-propos">
         <h1 class="title">à propos</h1>
         <div class="img-desc">
@@ -69,7 +70,7 @@
 
     </section>
 
-    <!-- section destination -->
+    <!--  destination -->
     <section id="popular-destination">
         <h1 class="title">destinations populaires</h1>
         <div class="content">
@@ -120,8 +121,6 @@
     <footer>
         <p> Réalisé par <span>BRAHIMI Massinissa & DIALLO Lamine</span> | Tous les droits sont réservés.</p>
     </footer>
-
-
 
     <script>
         var toggle_menu = document.querySelector('.responsive-menu');
