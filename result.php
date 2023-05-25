@@ -48,7 +48,7 @@
                     $hotelCity = $row["ville"];
                     $hotelRanking = $row["classement"];
         ?>
-                    <a href="dest.php">
+                    <a href="dest.php?id=<?php echo $hotelId; ?>">
                         <li class="hotel-item">
                             <img class="hotel-image" src="img/room.jpg" alt="Hotel <?php echo $hotelId; ?>">
                             <div class="hotel-details">

@@ -1,9 +1,73 @@
-* {
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Raleway", sans-serif;
-}
-body {
   background-color: #111;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  color: cornsilk;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.hotel-details {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #222;
+  color: cornsilk;
+}
+
+.hotel-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.hotel-location {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 15px;
+}
+
+.choices-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #222;
+  color: cornsilk;
+}
+
+.choices-container h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.choices-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.choices-list li {
+  margin-bottom: 10px;
+}
+
+.choices-list li a {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #29d9d5;
+  color: #111;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.choices-list li a:hover {
+  background-color: #19c7c3;
 }
