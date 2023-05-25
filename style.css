@@ -46,6 +46,14 @@ header .logo a {
 header .logo a span {
   color: #fff;
 }
+header .user-info {
+  display: flex;
+  align-items: center;
+}
+.user-desc {
+  color: #fff;
+  margin-right: 10px;
+}
 .menu {
   display: flex;
   align-items: center;
@@ -58,9 +66,6 @@ header .logo a span {
   color: #fff;
   font-size: 14px;
 }
-.sign_in_up {
-  width: 150px;
-}
 
 .btn-reservation {
   color: #29d9d5;
@@ -71,6 +76,7 @@ header .logo a span {
   font-weight: bolder;
   position: relative;
   margin: 0px;
+  margin-left: 10px;
 }
 .btn-reservation:hover {
   background-color: #29d9d5;

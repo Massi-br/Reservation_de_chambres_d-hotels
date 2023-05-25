@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Vérifier si l'utilisateur est connecté avant d'accéder à la clé "prenom"
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SESSION['prenom'])) {
+    $prenom = $_SESSION['prenom'];
+} else {
+    $prenom = ""; // Valeur par défaut si la clé n'est pas définie
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -19,8 +28,15 @@
             <li><a href="#popular-destination">destinations</a></li>
         </ul>
         <div class="sign_in_up">
-            <a href="auth.php?mode=connexion" class="btn-reservation">Se connecter</a>
-            <a href="auth.php?mode=inscription" class="btn-reservation">S'inscrire</a>
+            <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) { ?>
+                <div class="user-info">
+                    <span class="user-desc">Bienvenue , <?php echo $prenom; ?></span>
+                    <a href="deconnexion.php" class="btn-reservation">Déconnexion</a>
+                </div>
+            <?php } else { ?>
+                <a href="auth.php?mode=connexion" class="btn-reservation">Se connecter</a>
+                <a href="auth.php?mode=inscription" class="btn-reservation">S'inscrire</a>
+            <?php } ?>
         </div>
 
         <div class="responsive-menu"></div>
@@ -47,7 +63,7 @@
                     <label>Personnes</label>
                     <input type="text" placeholder="Entrez le nombre de personnes">
                 </div>
-                <input type="submit" value="rechercher">
+                <input type="submit" value="rechercher" formaction="result.php">
             </form>
         </div>
     </section>
@@ -125,7 +141,7 @@
     <script>
         var toggle_menu = document.querySelector('.responsive-menu');
         var menu = document.querySelector('.menu');
-        toggle_menu.onclick = function () {
+        toggle_menu.onclick = function() {
             toggle_menu.classList.toggle('active');
             menu.classList.toggle('responsive')
         }

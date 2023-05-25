@@ -1,5 +1,4 @@
 <?php
-
 try {
     $dsn = "mysql:host=localhost;dbname=siteweb";
     $db = new PDO($dsn, "root", "");
