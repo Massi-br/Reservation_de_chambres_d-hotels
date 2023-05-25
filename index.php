@@ -56,12 +56,16 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true && isset($_SE
                     <input type="text" placeholder="Entrez une ville">
                 </div>
                 <div>
-                    <label>Date</label>
-                    <input type="text" placeholder="Date-départ Date-d'arrivée">
+                    <label>Date d'entrée</label>
+                    <input type="text" placeholder="Date-d'arrivée">
+                </div>
+                <div>
+                    <label>Date de départ</label>
+                    <input type="text" placeholder="Date-départ">
                 </div>
                 <div>
                     <label>Personnes</label>
-                    <input type="text" placeholder="Entrez le nombre de personnes">
+                    <input type="text" placeholder="nombre de personnes">
                 </div>
                 <input type="submit" value="rechercher" formaction="result.php">
             </form>
