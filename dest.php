@@ -8,6 +8,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dest.css">
     <title>Détails de l'hôtel</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".choices-list a").click(function(e) {
+                e.preventDefault();
+
+                var type = $(this).attr("data-type");
+                var hotelId = $(this).attr("data-hotel-id");
+                var priceFrom = "<?php echo isset($_GET['price_from']) ? $_GET['price_from'] : ''; ?>";
+                var priceTo = "<?php echo isset($_GET['price_to']) ? $_GET['price_to'] : ''; ?>";
+
+                $.ajax({
+                    url: "chambre_dortoir.php?price_from=" + priceFrom + "&price_to=" + priceTo,
+                    method: "POST",
+                    data: {
+                        type: type,
+                        hotelId: hotelId
+                    },
+                    success: function(response) {
+                        $(".chambres-container").html(response);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -20,7 +45,7 @@
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "siteweb";
+        $dbname = "website";
 
         try {
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -45,11 +70,14 @@
                 </div>
 
                 <div class="choices-container">
-                    <h3>Que voulez-vous reserver:</h3>
+                    <h3>Que voulez-vous réserver:</h3>
                     <ul class="choices-list">
-                        <li><a href="dortoir.php?id=<?php echo $hotelId; ?>">Dortoir</a></li>
-                        <li><a href="chambre.php?id=<?php echo $hotelId; ?>">Chambre</a></li>
+                        <li><a href="#" data-type="dortoir" data-hotel-id="<?php echo $hotelId; ?>&price_from=<?php echo isset($_GET['price_from']) ? $_GET['price_from'] : ''; ?>&price_to=<?php echo isset($_GET['price_to']) ? $_GET['price_to'] : ''; ?>">Dortoir</a></li>
+                        <li><a href="#" data-type="chambre" data-hotel-id="<?php echo $hotelId; ?>&price_from=<?php echo isset($_GET['price_from']) ? $_GET['price_from'] : ''; ?>&price_to=<?php echo isset($_GET['price_to']) ? $_GET['price_to'] : ''; ?>">Chambre</a></li>
                     </ul>
+                </div>
+                <div class="chambres-container">
+                    <!-- Les résultats des chambres seront affichés ici -->
                 </div>
     <?php
             } else {

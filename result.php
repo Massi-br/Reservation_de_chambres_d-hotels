@@ -6,12 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="resultat.css">
+    <link rel="stylesheet" href="rslt.css">
     <title>Résultats de recherche d'hôtels</title>
+    <script>
+        function validateForm() {
+            var priceFrom = parseInt(document.getElementById('price-from').value);
+            var priceTo = parseInt(document.getElementById('price-to').value);
+
+            if (priceFrom <= 0) {
+                alert("Le prix minimum doit être supérieur à 0.");
+                return false;
+            }
+
+            if (priceTo <= priceFrom) {
+                alert("Le prix maximum doit être supérieur au prix minimum.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 
 <body>
     <h1>Résultats de recherche d'hôtels</h1>
+    <form method="GET" onsubmit="return validateForm()">
+        <div class="filter-container">
+            <label for="ranking-filter">Filtrer par classement :</label>
+            <select name="ranking" id="ranking-filter">
+                <option value="">Tous</option>
+                <option value="1">1 étoile</option>
+                <option value="2">2 étoiles</option>
+                <option value="3">3 étoiles</option>
+                <option value="4">4 étoiles</option>
+                <option value="5">5 étoiles</option>
+            </select>
+            <label for="price-from">Prix minimum :</label>
+            <input type="number" name="price_from" id="price-from" min="1" value="<?php echo isset($_GET['price_from']) ? $_GET['price_from'] : ''; ?>">
+            <label for="price-to">Prix maximum :</label>
+            <input type="number" name="price_to" id="price-to" min="1" value="<?php echo isset($_GET['price_to']) ? $_GET['price_to'] : ''; ?>">
+            <button type="submit">Filtrer</button>
+        </div>
+    </form>
 
     <ul class="hotel-list">
         <?php
@@ -28,27 +64,58 @@
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "siteweb";
+        $dbname = "website";
 
         try {
-            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $db = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Étape 2 : Récupérer les enregistrements des hôtels en utilisant une requête préparée
-            $reqprp = $conn->prepare("SELECT id, nom, adresse, ville, classement FROM hotel");
-            $reqprp->execute();
+            // Étape 2 : Construction de la requête SQL en fonction des filtres
+            $sql = "SELECT h.id, h.nom, h.adresse, h.ville, h.classement 
+            FROM hotel h
+            INNER JOIN chambre c ON h.id = c.hotel_id
+            WHERE 1 = 1";
 
+            // Vérification des filtres
+            $rankingFilter = isset($_GET['ranking']) ? $_GET['ranking'] : '';
+            $priceFromFilter = isset($_GET['price_from']) ? $_GET['price_from'] : '';
+            $priceToFilter = isset($_GET['price_to']) ? $_GET['price_to'] : '';
 
-            // Étape 3 : Afficher les détails de chaque hôtel
-            if ($reqprp->rowCount() > 0) {
-                while ($row = $reqprp->fetch()) {
+            if ($rankingFilter != '') {
+                $sql .= " AND h.classement = :ranking";
+            }
+
+            if ($priceFromFilter != '' && $priceToFilter != '') {
+                $sql .= " AND c.prix BETWEEN :priceFrom AND :priceTo";
+            }
+
+            $sql .= " GROUP BY h.id";
+
+            // Étape 3 : Préparation de la requête avec les paramètres
+            $q = $db->prepare($sql);
+
+            if ($rankingFilter != '') {
+                $q->bindParam(':ranking', $rankingFilter, PDO::PARAM_INT);
+            }
+
+            if ($priceFromFilter != '' && $priceToFilter != '') {
+                $q->bindParam(':priceFrom', $priceFromFilter, PDO::PARAM_INT);
+                $q->bindParam(':priceTo', $priceToFilter, PDO::PARAM_INT);
+            }
+
+            // Étape 4 : Exécution de la requête
+            $q->execute();
+
+            // Étape 5 : Affichage des détails de chaque hôtel
+            if ($q->rowCount() > 0) {
+                while ($row = $q->fetch()) {
                     $hotelId = $row["id"];
                     $hotelName = $row["nom"];
                     $hotelAddress = $row["adresse"];
                     $hotelCity = $row["ville"];
                     $hotelRanking = $row["classement"];
         ?>
-                    <a href="dest.php?id=<?php echo $hotelId; ?>">
+                    <a href="dest.php?id=<?php echo $hotelId; ?>&price_from=<?php echo $priceFromFilter; ?>&price_to=<?php echo $priceToFilter; ?>">
                         <li class="hotel-item">
                             <img class="hotel-image" src="img/room.jpg" alt="Hotel <?php echo $hotelId; ?>">
                             <div class="hotel-details">
@@ -67,7 +134,7 @@
             echo "Erreur de connexion à la base de données : " . $e->getMessage();
         }
         // Fermer la connexion à la base de données
-        $conn = null;
+        $db = null;
         ?>
     </ul>
 </body>
